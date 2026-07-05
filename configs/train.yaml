@@ -1,0 +1,15 @@
+# train.py 配置文件
+root: dataset/rellis
+sequence: "00000"
+num_frames: 8
+num_views: 3
+batch_size: 4
+epochs: 5
+lr: 0.0001
+weight_decay: 0.01
+save_dir: checkpoints
+device: cuda
+val_split: 0.1
+max_samples: 0
+use_uncertainty: false
+log_interval: 10

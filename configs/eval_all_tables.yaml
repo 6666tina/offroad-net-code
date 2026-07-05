@@ -1,0 +1,11 @@
+# eval_all_tables.py 配置文件
+root: dataset/rellis
+sequence: "00000"
+num_frames: 8
+num_views: 3
+batch_size: 1
+num_samples: 60
+checkpoint: checkpoint_offroad_net.pth
+device: cuda
+num_workers: 2
+disable_tsm: false

@@ -1,20 +1,7 @@
-# 排除数据文件夹
-data/
 dataset/
-datasets/
-
-# 排除模型权重及检查点
+data/
+checkpoints/
 *.pth
-*.pt
-*.ckpt
-*.h5
-
-# 排除平台配置与缓存
-.autodl/
 __pycache__/
 *.pyc
-
-# 排除实验日志
-logs/
-runs/
-wandb/
+.vscode/

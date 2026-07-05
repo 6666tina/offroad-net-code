@@ -9,8 +9,12 @@ class DecoupledSpatiotemporalNet(nn.Module):
         self.num_frames = num_frames
         self.num_views = num_views
         
-        # 1. 基础 Backbone (以 ResNet18 为例) + 嵌入 TSM 模块
-        base_model = models.resnet18(pretrained=True)
+        # 1. Backbone + TSM modules.
+        try:
+            weights = models.ResNet18_Weights.IMAGENET1K_V1
+            base_model = models.resnet18(weights=weights)
+        except Exception:
+            base_model = models.resnet18(pretrained=True)
         base_model.layer2[0] = TemporalShift(base_model.layer2[0], n_segment=num_frames)
         base_model.layer3[0] = TemporalShift(base_model.layer3[0], n_segment=num_frames)
         
@@ -21,7 +25,7 @@ class DecoupledSpatiotemporalNet(nn.Module):
         # 将各视角特征拼接后通过高吞吐 1x1 卷积融合
         self.spatial_fusion = nn.Sequential(
             nn.Conv2d(feat_dim * num_views, feat_dim, kernel_size=1, bias=False),
-            nn.BatchNorm2d(feat_dim),
+            nn.GroupNorm(num_groups=32, num_channels=feat_dim),
             nn.ReLU(inplace=True)
         )
         
@@ -34,6 +38,9 @@ class DecoupledSpatiotemporalNet(nn.Module):
     def forward(self, x):
         # 输入形状: [B, V, T, C, H, W]
         B, V, T, C, H, W = x.shape
+        assert V == self.num_views and T == self.num_frames, (
+            f"Expected input shape [B,{self.num_views},{self.num_frames},C,H,W], got [B,{V},{T},C,H,W]"
+        )
         x = x.view(B * V * T, C, H, W)
         
         # 提取时空特征

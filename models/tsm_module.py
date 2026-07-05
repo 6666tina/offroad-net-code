@@ -9,12 +9,19 @@ class TemporalShift(nn.Module):
         self.fold_div = n_div
 
     def forward(self, x):
+        if self.n_segment <= 1:
+            return self.net(x)
         x = self.shift(x, self.n_segment, fold_div=self.fold_div)
         return self.net(x)
 
     @staticmethod
     def shift(x, n_segment, fold_div=8):
         nt, c, h, w = x.size()
+        if nt % n_segment != 0:
+            raise ValueError(f'Input temporal length {nt} is not divisible by n_segment={n_segment}.')
+        if c % fold_div != 0:
+            raise ValueError(f'Channel count {c} is not divisible by fold_div={fold_div}.')
+
         n_batch = nt // n_segment
         x = x.view(n_batch, n_segment, c, h, w)
         
@@ -26,5 +33,5 @@ class TemporalShift(nn.Module):
         out[:, 1:, fold: 2 * fold] = x[:, :-1, fold: 2 * fold]
         # 剩余 3/4 通道保持不变
         out[:, :, 2 * fold:] = x[:, :, 2 * fold:]
-        
+        # Edge frames are zero-padded for the shifted channels.
         return out.view(nt, c, h, w)

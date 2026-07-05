@@ -1,4 +1,4 @@
-Project README
+ACCV 2026 Paper #40:Video-based Terrain and Scene Classification for Off-road Autonomous Driving
 
 This repository contains code for multi-view spatiotemporal multi-task perception (terrain + scene). It includes training, evaluation, and experimental/demo scripts.
 

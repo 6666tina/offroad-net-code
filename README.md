@@ -68,19 +68,8 @@ video_stream/
 dataset/
 	rellis/
 		images/
-			00000/
-				pylon_camera_node/
-			11111/
 		labels/
-			00000/
-				pylon_camera_node_label_id/
-			00001/
-			00002/
-			00003/
-			00004/
 		ontology/
-			ontology.csv
-			ontology.yaml
 datasets/
 	__init__.py
 	rellis_dataset.py

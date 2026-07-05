@@ -125,7 +125,3 @@ python eval_all_tables.py --config configs/eval_all_tables.yaml
 # Run demo experiment
 python experiments/run_pipeline.py
 ```
-
-Want more?
-
-I can also generate a `requirements.txt`, add a small CI workflow, or expand the README with dataset preparation and visualization examples—tell me which you prefer.

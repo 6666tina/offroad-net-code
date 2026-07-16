@@ -100,7 +100,6 @@ Notes
 
 - If no GPU is available, scripts will fall back to CPU automatically (slower).
 - YAML files in `configs/` are loadable via `--config`; CLI args override config defaults.
-- Historical redundant script `eval_tables.py` was removed; `run_pipeline.py` was moved to `experiments/`.
 
 Common commands
 
